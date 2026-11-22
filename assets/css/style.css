@@ -210,23 +210,28 @@ a { color: var(--sky-ink); text-underline-offset: 3px; }
 .section { padding-block: var(--space-16); }
 .section__head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-8); }
 
-/* ---------- film strip ---------- */
+/* ---------- film strip (auto-scrolls right → left) ---------- */
 .strip {
+  background: var(--film-base);
+  overflow: hidden;
+}
+.strip__track {
+  display: flex;
+  width: max-content;
+  animation: strip-roll var(--strip-dur, 60s) linear infinite;
+}
+.strip:hover .strip__track,
+.strip:focus-within .strip__track { animation-play-state: paused; }
+@keyframes strip-roll { to { transform: translateX(-50%); } }
+.strip__frame {
+  /* each frame carries its own sprocket holes so they travel with the film */
   --holes: repeating-linear-gradient(90deg, var(--paper) 0 8px, transparent 8px 22px);
+  flex: 0 0 auto;
+  display: grid; gap: var(--space-2);
+  padding: 30px var(--space-3) 30px 0;
   background:
     var(--holes) 0 7px / 100% 10px no-repeat,
-    var(--holes) 0 calc(100% - 7px) / 100% 10px no-repeat,
-    var(--film-base);
-  padding: 30px 0;
-}
-.strip__row {
-  display: flex; gap: var(--space-3);
-  overflow-x: auto; scroll-snap-type: x mandatory;
-  padding-inline: var(--gutter); scrollbar-width: thin;
-}
-.strip__frame {
-  flex: 0 0 auto; scroll-snap-align: start;
-  display: grid; gap: var(--space-2);
+    var(--holes) 0 calc(100% - 7px) / 100% 10px no-repeat;
   color: var(--film-edge); text-decoration: none;
   font: 500 11px/16px var(--font-mono); letter-spacing: .14em; text-transform: uppercase;
 }
@@ -235,6 +240,11 @@ a { color: var(--sky-ink); text-underline-offset: 3px; }
 .strip__frame:focus-visible { outline: none; }
 .strip__frame b { font-weight: 500; color: #fbf8f2; }
 .strip__label { display: flex; justify-content: space-between; gap: var(--space-4); }
+@media (prefers-reduced-motion: reduce) {
+  .strip { overflow-x: auto; }
+  .strip__track { animation: none; }
+  .strip__frame[aria-hidden="true"] { display: none; }
+}
 
 /* ---------- loose grid ---------- */
 .loose {
