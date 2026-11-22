@@ -270,7 +270,8 @@ a { color: var(--sky-ink); text-underline-offset: 3px; }
 
 /* ---------- roll page ---------- */
 .roll-head { padding-block: var(--space-16) var(--space-12); display: grid; gap: var(--space-6); justify-items: start; }
-.lead-photo { --tilt: 0deg; max-width: 980px; margin: 0 auto var(--space-16); }
+.lead-photo { --tilt: 0deg; width: fit-content; max-width: min(980px, 100%); margin: 0 auto var(--space-16); }
+.lead-photo img { width: auto; max-width: 100%; max-height: 78vh; margin: 0 auto; }
 .lead-photo:hover { transform: none; box-shadow: var(--shadow-print); }
 .next-roll { padding-block: var(--space-16) var(--space-24); }
 
