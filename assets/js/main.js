@@ -34,6 +34,24 @@
     var onScroll = function () { if (header) header.classList.toggle('is-scrolled', window.scrollY > 8); };
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
+    // ----- film strip: pad each frame to a multiple of the 22px sprocket pitch
+    //       so the holes run evenly from one frame into the next -----
+    var PITCH = 22, GAP = 12;
+    var frames = Array.prototype.slice.call(document.querySelectorAll('.strip__frame'));
+    function alignFrame(f) {
+      f.style.paddingRight = GAP + 'px';
+      var w = f.getBoundingClientRect().width;
+      var extra = (PITCH - (Math.round(w) % PITCH)) % PITCH;
+      f.style.paddingRight = (GAP + extra) + 'px';
+    }
+    function alignAll() { frames.forEach(alignFrame); }
+    frames.forEach(function (f) {
+      var im = f.querySelector('img');
+      if (im && !im.complete) im.addEventListener('load', function () { alignFrame(f); });
+    });
+    alignAll();
+    window.addEventListener('resize', alignAll);
+
     // ----- lightbox -----
     var triggers = Array.prototype.slice.call(document.querySelectorAll('[data-full]'));
     var box = document.querySelector('.lightbox');
