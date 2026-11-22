@@ -216,7 +216,9 @@ a { color: var(--sky-ink); text-underline-offset: 3px; }
 .strip {
   background: var(--film-base);
   overflow: hidden;
+  scrollbar-width: none;
 }
+.strip::-webkit-scrollbar { display: none; }
 .strip__track {
   display: flex;
   width: max-content;
@@ -227,7 +229,7 @@ a { color: var(--sky-ink); text-underline-offset: 3px; }
 @keyframes strip-roll { to { transform: translateX(-50%); } }
 .strip__frame {
   /* each frame carries its own sprocket holes so they travel with the film */
-  --holes: repeating-linear-gradient(90deg, var(--paper) 0 8px, transparent 8px 22px);
+  --holes: repeating-linear-gradient(90deg, #0d0a08 0 8px, transparent 8px 22px);
   flex: 0 0 auto;
   display: grid; gap: var(--space-2);
   padding: 30px var(--space-3) 30px 0;
